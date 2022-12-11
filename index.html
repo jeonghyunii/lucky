@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body{
+           margin: 0; 
+           background: black;
+             }
+
+        .ticker{position: absolute;overflow: hidden;}
+        
+        #ticker1{
+            margin: 0;
+            left: 0px;
+            width: 100vw;height: 2rem;
+            font-family:"S-CoreDream-3Light" ;
+            font-weight: 800;
+            font-size: 2rem;line-height: 2rem;
+            color: white;
+        }
+
+        .container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                margin: 40px auto;
+                
+                }
+        
+        .imgs {
+                width: 23vw;
+                height: auto;
+                margin: 10px auto;
+                display: block;
+                cursor:pointer;
+            
+                }
+
+    @font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+        </style>
+    <title>찌라시</title>
+
+</head>
+<body>
+
+//찌라시 이미지
+
+    <div id="ticker1" class="ticker" data-speed="1.5" data-gap="20"><p><span>DO YOU WANT TO GET LUCK? ♡ ♥ ♧ ♣ CLICK ON THE PAPER!♡ ♥ ♧ ♣ DO YOU WANT TO GET LUCK? ♡ ♥ ♧ ♣ CLICK ON THE PAPER! DO YOU WANT TO GET LUCK? ♡ ♥ ♧ ♣ CLICK ON THE PAPER!♡ ♥ ♧ ♣ DO YOU WANT TO GET LUCK? ♡ ♥ ♧ ♣ CLICK ON THE PAPER!♡ ♥ ♧ ♣</span></p></div>
+
+
+    <div id="container" class="container">
+    <img src = "" class = "imgs" id = "paper1">
+    <img src = "" class = "imgs" id = "paper2">
+    <img src = "" class = "imgs" id = "paper3">
+    <img src = "" class = "imgs" id = "paper4">
+    <img src = "" class = "imgs" id = "paper5">
+    <img src = "" class = "imgs" id = "paper6">
+    <img src = "" class = "imgs" id = "paper7">
+    <img src = "" class = "imgs" id = "paper8">
+    <img src = "" class = "imgs" id = "paper9">
+    <img src = "" class = "imgs" id = "paper10">
+    <img src = "" class = "imgs" id = "paper11">
+    <img src = "" class = "imgs" id = "paper12">
+    <img src = "" class = "imgs" id = "paper13">
+    <img src = "" class = "imgs" id = "paper14">
+    <img src = "" class = "imgs" id = "paper15">
+    <img src = "" class = "imgs" id = "paper16">
+    </div>
+
+    
+<script>
+
+getRandomImg();
+
+function getRandomImg(){
+   var imgList = ["paper1.png", "paper2.png", "paper3.png", "paper4.png", "paper5.png", "paper6.png", "paper7.png", "paper8.png", "paper9.png", "paper10.png",
+      "paper11.png", "paper12.png", "paper13.png", "paper14.png", "paper15.png", "paper16.png"]
+   
+   imgList.sort(() => Math.random() - 0.5);
+
+   var container = document.getElementById("container");
+   var children = container.children;
+
+   for(var i=0; i<children.length; i++){
+
+      children[i].setAttribute("src", imgList[i]);
+      children[i].setAttribute("onclick", "window.location.href='scratch.html?img=" + imgList[i] + "';");
+   }
+}
+
+        bhTicker("ticker",2);
+
+function bhTicker(cl,speed) {
+    let t = document.getElementsByClassName(cl);
+    let ta = []; let ts=[]; let tg=[]; let tw=[];
+    let container,mover,text,textWidth;
+
+    for(let i=0; i<t.length; i++){
+        container = t[i];
+        mover = container.getElementsByTagName("p").item(0);
+        text = mover.getElementsByTagName("span").item(0);
+
+        // set
+        mover.style.position = "absolute";
+        mover.style.margin = "0 0 0 0";
+        mover.style.left = "0px";
+        mover.leftPosition = 0;
+        mover.style.width = text.childNodes.item(0).length + "em";  // stretch width
+        textWidth = text.offsetWidth;
+
+        let speed2 = t[i].dataset.speed;
+        if (textWidth > container.offsetWidth) {
+            if(speed2 == 1){speed2 = 2};
+            mover.style.width = textWidth * speed2 + "px";
+            
+            for(let k=0;k<speed2;k++){
+                mover.innerHTML += mover.innerHTML; 
+            }
+        }
+
+        tw.push(textWidth);
+        tg.push(t[i].dataset.gap);
+        ts.push(t[i].dataset.speed);
+        ta.push(mover);
+    }
+
+    let tickerAction = function() {
+        for(let j=0;j<ta.length;j++){
+            let speed = parseInt(ts[j]);
+            let gap = parseInt(tg[j]);
+            let tw2 = tw[j];
+
+            if (ta[j].leftPosition * -speed > tw2*speed) {
+                ta[j].leftPosition = -speed;
+            } else {
+                ta[j].leftPosition -= speed;
+            }
+
+            ta[j].style.left = (-gap + ta[j].leftPosition) + "px";
+        }
+        window.requestAnimationFrame(tickerAction);
+    };
+    tickerAction();
+}
+
+</script>
+</body>
+</html>
